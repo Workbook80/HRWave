@@ -1,0 +1,93 @@
+{% extends 'hr_records/base.html' %}
+
+{% block content %}
+
+	<!-- Поиск -->
+	<form method="GET" class="form-inline mt-3">
+	    <div class="form-group mb-2 col-md-6">
+	        <input type="text" name="q" class="form-control w-100" placeholder="Поиск по фамилии" value="{{ request.GET.q }}">
+	    </div>
+	    <div class="form-group mb-2 col-md-2">
+	        <input type="text" name="year" id="year" class="form-control w-100" placeholder="Поиск по году" pattern="[0-9]{4}" value="{{ request.GET.year }}">
+	    </div>
+	    <div class="form-group mb-2 col-md-2">
+		    <select name="month" id="month" class="form-control w-100">
+	            <option value="">Все месяцы</option>
+	            <option value="1" {% if request.GET.month == '1' %}selected{% endif %}>Январь</option>
+	            <option value="2" {% if request.GET.month == '2' %}selected{% endif %}>Февраль</option>
+	            <option value="3" {% if request.GET.month == '3' %}selected{% endif %}>Март</option>
+	            <option value="4" {% if request.GET.month == '4' %}selected{% endif %}>Апрель</option>
+	            <option value="5" {% if request.GET.month == '5' %}selected{% endif %}>Май</option>
+	            <option value="6" {% if request.GET.month == '6' %}selected{% endif %}>Июнь</option>
+	            <option value="7" {% if request.GET.month == '7' %}selected{% endif %}>Июль</option>
+	            <option value="8" {% if request.GET.month == '8' %}selected{% endif %}>Август</option>
+	            <option value="9" {% if request.GET.month == '9' %}selected{% endif %}>Сентябрь</option>
+	            <option value="10" {% if request.GET.month == '10' %}selected{% endif %}>Октябрь</option>
+	            <option value="11" {% if request.GET.month == '11' %}selected{% endif %}>Ноябрь</option>
+	            <option value="12" {% if request.GET.month == '12' %}selected{% endif %}>Декабрь</option>
+	        </select>
+	    </div>
+	    <div class="form-group mb-0 col-md-2">
+	        <button type="submit" class="btn btn-primary btn-block">Искать</button>
+	    </div>
+	</form>
+
+	<div class="row mt-2">
+	    {% for sick_leave in sick_leaves %}
+		    <div class="col-12">
+		        <div class="card mb-3">
+		            <div class="card-header">
+		                Сотрудник: {{ sick_leave.employee_sick_leave }}
+		            </div>
+		            <div class="card-body">
+		                <p class="card-text">Дата начала больничного: {{ sick_leave.start_date_sick_leave }}</p>
+		                <p class="card-text">Дата конца больничного: {{ sick_leave.end_date_sick_leave }}</p>
+		                <p class="card-text">Причина:
+		                    {% if sick_leave.reason %}
+		                        {{ sick_leave.reason }}
+		                    {% else %}
+		                        Нет данных
+		                    {% endif %}
+		                </p>
+		            </div>
+		        </div>
+		    </div>
+	    {% empty %}
+	        <li class="mx-5">Нет данных</li>
+	    {% endfor %}
+	</div>
+
+    <!-- Пагинатор -->
+	<nav aria-label="Page navigation" class="mt-2">
+	    <ul class="pagination justify-content-center">
+	        {% if items.has_previous %}
+	            <li class="page-item">
+	                <a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}{% if request.GET.month %}&month={{ request.GET.month }}{% endif %}" aria-label="Первая">
+	                    <span aria-hidden="true">&laquo;&laquo;</span>
+	                </a>
+	            </li>
+	            <li class="page-item">
+	                <a class="page-link" href="?page={{ items.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}{% if request.GET.month %}&month={{ request.GET.month }}{% endif %}" aria-label="Предыдущая">
+	                    <span aria-hidden="true">&laquo;</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	        <li class="page-item disabled">
+	            <span class="page-link">Страница {{ items.number }} из {{ items.paginator.num_pages }}</span>
+	        </li>
+	        {% if items.has_next %}
+	            <li class="page-item">
+	                <a class="page-link" href="?page={{ items.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}{% if request.GET.month %}&month={{ request.GET.month }}{% endif %}" aria-label="Следующая">
+	                    <span aria-hidden="true">&raquo;</span>
+	                </a>
+	            </li>
+	            <li class="page-item">
+	                <a class="page-link" href="?page={{ items.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if request.GET.year %}&year={{ request.GET.year }}{% endif %}{% if request.GET.month %}&month={{ request.GET.month }}{% endif %}" aria-label="Последняя">
+	                    <span aria-hidden="true">&raquo;&raquo;</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	    </ul>
+	</nav>
+
+{% endblock content %}

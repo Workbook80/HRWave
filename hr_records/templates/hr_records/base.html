@@ -1,0 +1,48 @@
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRWave</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+</head>
+<body>
+    <!-- Навигационная панель Bootstrap 4 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HRWave</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hr_records:employee_list' %}">Сотрудники</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hr_records:vacation_list' %}">Отпуска</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hr_records:business_trip_list' %}">Командировки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hr_records:sick_leave_list' %}">Больничные</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hr_records:logout' %}">Выход</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        {% block content %}{% endblock content %}
+    </div>
+
+</body>
+</html>

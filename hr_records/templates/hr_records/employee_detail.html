@@ -1,0 +1,195 @@
+{% extends 'hr_records/base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Сотрудник: {{ employee.last_name }} {{ employee.first_name }}
+                </div>
+                <div class="card-body">
+                    <p>Идентификатор сотрудника: {{ employee.employee_id }}</p>
+                    <p>Имя: {{ employee.first_name }}</p>
+                    <p>Фамилия: {{ employee.last_name }}</p>
+                    <p>Отчество: {{ employee.middle_name }}</p>
+                    <p>Дата рождения: {{ employee.date_of_birth }}</p>
+                    <p>Место рождения: {{ employee.place_of_birth }}</p>
+                    <p>Серия паспорта: {{ employee.passport_series }}</p>
+                    <p>Номер паспорта: {{ employee.passport_number }}</p>
+                    <p>Паспорт выдан: {{ employee.passport_issued_by }}</p>
+                    <p>Дата выдачи паспорта: {{ employee.passport_issued_date }}</p>
+                    <p>Код подразделения: {{ employee.passport_departament_code }}</p>
+                    <p>Адрес регистрации: {{ employee.registration_address }}</p>
+                    <p>Адрес проживания: {{ employee.current_address }}</p>
+                    <p>Должность: {{ employee.position }}</p>
+                    <p>Дата приема на работу: {{ employee.hire_date }}</p>
+                    <p>Почта: {{ employee.email }}</p>
+                    <p>Номер телефона: {{ employee.phone_number }}</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-3 mb-3">
+	            <a href="{% url 'hr_records:employee_list' %}" class="btn btn-danger m-1">Вернуться</a>
+                <a href="{% url 'hr_records:edit_employee' employee_id=employee.employee_id %}" class="btn btn-success m-1">Редактировать</a>
+	            <a href="{% url 'hr_records:export_json' %}?employee_id={{ employee.employee_id }}" class="btn btn-info m-1">Экспорт в JSON</a>
+                <a href="{% url 'hr_records:export_pdf' employee_id=employee.employee_id %}" class="btn btn-info m-1">Экспорт в PDF</a>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Отпуска</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        {% for vacation in vacations_page %}
+                            <li>С {{ vacation.start_date_vacation }} по {{ vacation.end_date_vacation }}</li>
+                        {% empty %}
+                            <li>Нет данных об отпусках</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- Пагинация для отпусков -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if vacations_page.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?vacations_page=1" aria-label="Первая">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?vacations_page={{ vacations_page.previous_page_number }}" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Страница {{ vacations_page.number }} из {{ vacations_page.paginator.num_pages }}</span>
+                        </li>
+                        {% if vacations_page.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?vacations_page={{ vacations_page.next_page_number }}" aria-label="Следующая">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?vacations_page={{ vacations_page.paginator.num_pages }}" aria-label="Последняя">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h2>Командировки</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        {% for business_trip in business_trips_page %}
+                            <li>С {{ business_trip.start_date_business_trip }} по {{ business_trip.end_date_business_trip }}</li>
+                        {% empty %}
+                            <li>Нет данных о командировках</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- Пагинация для командировок -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if business_trips_page.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?business_trips_page=1" aria-label="Первая">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?business_trips_page={{ business_trips_page.previous_page_number }}" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Страница {{ business_trips_page.number }} из {{ business_trips_page.paginator.num_pages }}</span>
+                        </li>
+                        {% if business_trips_page.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?business_trips_page={{ business_trips_page.next_page_number }}" aria-label="Следующая">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?business_trips_page={{ business_trips_page.paginator.num_pages }}" aria-label="Последняя">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+
+
+
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h2>Больничные</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        {% for sick_leave in sick_leaves_page %}
+                            <li>С {{ sick_leave.start_date_sick_leave }} по {{ sick_leave.end_date_sick_leave }}</li>
+                        {% empty %}
+                            <li>Нет данных о больничных</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- Пагинация для больничных -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if sick_leaves_page.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?sick_leaves_page=1" aria-label="Первая">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?sick_leaves_page={{ sick_leaves_page.previous_page_number }}" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Страница {{ sick_leaves_page.number }} из {{ sick_leaves_page.paginator.num_pages }}</span>
+                        </li>
+                        {% if sick_leaves_page.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?sick_leaves_page={{ sick_leaves_page.next_page_number }}" aria-label="Следующая">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?sick_leaves_page={{ sick_leaves_page.paginator.num_pages }}" aria-label="Последняя">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+	</div>
+
+
+</div>
+
+{% endblock content %}

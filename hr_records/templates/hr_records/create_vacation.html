@@ -1,0 +1,100 @@
+{% extends 'hr_records/base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+
+            <div class="col-md-12">
+				<div class="form-group">
+				    <label for="employee">Сотрудник:</label>
+				    <input type="text" id="employee" name="employee" class="form-control" value="{{ employee }}" readonly>
+				</div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="{{ form.start_date_vacation.id_for_label }}">Дата начала отпуска:</label>
+                    <input type="date" id="{{ form.start_date_vacation.id_for_label }}"
+                           name="{{ form.start_date_vacation.name }}" class="form-control"
+                           value="{{ form.start_date_vacation.value }}">
+                    {% if form.errors.start_date_vacation %}
+                        <p class="text-danger">{{ form.errors.start_date_vacation }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="{{ form.end_date_vacation.id_for_label }}">Дата окончания отпуска:</label>
+                    <input type="date" id="{{ form.end_date_vacation.id_for_label }}"
+                           name="{{ form.end_date_vacation.name }}" class="form-control"
+                           value="{{ form.end_date_vacation.value }}">
+                    {% if form.errors.end_date_vacation %}
+                        <p class="text-danger">{{ form.errors.end_date_vacation }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+		<div class="col-md-4">
+		    <div class="form-group">
+		        <label for="{{ form.type_vacation.id_for_label }}">Тип отпуска:</label>
+		        <select id="{{ form.type_vacation.id_for_label }}" name="{{ form.type_vacation.name }}" class="form-control">
+		            <option value="Основной">Основной</option>
+		            <option value="Дополнительный">Дополнительный</option>
+		            <option value="Учебный">Учебный</option>
+			        <option value="Отпуск по беременности и родам">Отпуск по беременности и родам</option>
+		            <option value="Отпуск по уходу за ребенком">Отпуск по уходу за ребенком</option>
+		            <option value="Неоплачиваемый">Неоплачиваемый</option>
+		        </select>
+		        {% if form.errors.type_vacation %}
+		            <p class="text-danger">{{ form.errors.type_vacation }}</p>
+		        {% endif %}
+		    </div>
+		</div>
+
+        </div>
+        <div class="row align-items-start mt-3 mb-3">
+            <div class="col-1"></div>
+            <div class="col-3">
+                <div class="text-center">
+                    <a class="btn btn-danger btn-block" href="{% url 'hr_records:employee_list' %}">Вернуться</a>
+                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-3">
+
+				<div class="text-center">
+				    <button type="button" class="btn btn-success btn-block" data-toggle="modal"
+				            data-target="#confirmationModal">Создать</button>
+				</div>
+
+				<!-- Модальное окно для подтверждения -->
+				<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+					            <h5 class="modal-title" id="confirmationModalLabel">Подтверждение действия</h5>
+					            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+					        <div class="modal-body">
+				                Вы уверены, что хотите создать запись?
+					        </div>
+					        <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+					            <button type="submit" class="btn btn-success">Подтвердить</button>
+					        </div>
+				        </div>
+				    </div>
+				</div>
+
+            <div class="col-1"></div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

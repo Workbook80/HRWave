@@ -1,0 +1,222 @@
+{% extends 'hr_records/base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Информация о сотруднике</legend>
+
+	                <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}">Фамилия:</label>
+                        <input type="text" id="{{ form.last_name.id_for_label }}"
+                               name="{{ form.last_name.name }}" class="form-control"
+                               value="{{ form.last_name.value }}">
+	                    {% if form.errors.last_name %}
+                            <p class="text-danger">{{ form.errors.last_name }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">Имя:</label>
+                        <input type="text" id="{{ form.first_name.id_for_label }}"
+                               name="{{ form.first_name.name }}" class="form-control"
+                               value="{{ form.first_name.value }}">
+                        {% if form.errors.first_name %}
+                            <p class="text-danger">{{ form.errors.first_name }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.middle_name.id_for_label }}">Отчество:</label>
+                        <input type="text" id="{{ form.middle_name.id_for_label }}"
+                               name="{{ form.middle_name.name }}" class="form-control"
+                               value="{{ form.middle_name.value }}">
+	                    {% if form.errors.middle_name %}
+                            <p class="text-danger">{{ form.errors.middle_name }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.date_of_birth.id_for_label }}">Дата рождения:</label>
+                        <input type="date" id="{{ form.date_of_birth.id_for_label }}"
+                               name="{{ form.date_of_birth.name }}" class="form-control"
+                               value="{{ form.date_of_birth.value|date:'Y-m-d' }}">
+	                    {% if form.errors.date_of_birth %}
+                            <p class="text-danger">{{ form.errors.date_of_birth }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.position.id_for_label }}">Должность:</label>
+                        <input type="text" id="{{ form.position.id_for_label }}"
+                               name="{{ form.position.name }}" class="form-control"
+                               value="{{ form.position.value }}">
+	                    {% if form.errors.position %}
+                            <p class="text-danger">{{ form.errors.position }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.hire_date.id_for_label }}">Дата приема на работу:</label>
+                        <input type="date" id="{{ form.hire_date.id_for_label }}"
+                               name="{{ form.hire_date.name }}" class="form-control"
+                               value="{{ form.hire_date.value|date:'Y-m-d' }}">
+	                    {% if form.errors.hire_date %}
+                            <p class="text-danger">{{ form.errors.hire_date }}</p>
+                        {% endif %}
+                    </div>
+
+	                <div class="form-group">
+	                    <label for="{{ form.email.id_for_label }}">Почта:</label>
+	                    <input type="email" id="{{ form.email.id_for_label }}"
+	                           name="{{ form.email.name }}" class="form-control"
+	                           value="{{ form.email.value }}">
+		                {% if form.errors.email %}
+                            <p class="text-danger">{{ form.errors.email }}</p>
+                        {% endif %}
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="{{ form.phone_number.id_for_label }}">Номер телефона:</label>
+	                    <input type="number" id="{{ form.phone_number.id_for_label }}"
+	                           name="{{ form.phone_number.name }}" class="form-control"
+	                           value="{{ form.phone_number.value }}">
+		                {% if form.errors.phone_number %}
+                            <p class="text-danger">{{ form.errors.phone_number }}</p>
+                        {% endif %}
+	                </div>
+
+                </fieldset>
+            </div>
+
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Паспортные данные</legend>
+
+                    <div class="form-group">
+                        <label for="{{ form.passport_series.id_for_label }}">Серия паспорта:</label>
+                        <input type="number" id="{{ form.passport_series.id_for_label }}"
+                               name="{{ form.passport_series.name }}" class="form-control"
+                               value="{{ form.passport_series.value }}">
+	                    {% if form.errors.passport_series %}
+                            <p class="text-danger">{{ form.errors.passport_series }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.passport_number.id_for_label }}">Номер паспорта:</label>
+                        <input type="number" id="{{ form.passport_number.id_for_label }}"
+                               name="{{ form.passport_number.name }}" class="form-control"
+                               value="{{ form.passport_number.value }}">
+	                    {% if form.errors.passport_number %}
+                            <p class="text-danger">{{ form.errors.passport_number }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.passport_issued_by.id_for_label }}">Паспорт выдан:</label>
+                        <input type="text" id="{{ form.passport_issued_by.id_for_label }}"
+                               name="{{ form.passport_issued_by.name }}" class="form-control"
+                               value="{{ form.passport_issued_by.value }}">
+	                    {% if form.errors.passport_issued_by %}
+                            <p class="text-danger">{{ form.errors.passport_issued_by }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.passport_issued_date.id_for_label }}">Дата выдачи паспорта:</label>
+                        <input type="date" id="{{ form.passport_issued_date.id_for_label }}"
+                               name="{{ form.passport_issued_date.name }}" class="form-control"
+                               value="{{ form.passport_issued_date.value|date:'Y-m-d' }}">
+	                    {% if form.errors.passport_issued_date %}
+                            <p class="text-danger">{{ form.errors.passport_issued_date }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.passport_departament_code.id_for_label }}">Код подразделения:</label>
+                        <input type="number" id="{{ form.passport_departament_code.id_for_label }}"
+                               name="{{ form.passport_departament_code.name }}" class="form-control"
+                               value="{{ form.passport_departament_code.value }}">
+	                    {% if form.errors.passport_departament_code %}
+                            <p class="text-danger">{{ form.errors.passport_departament_code }}</p>
+                        {% endif %}
+                    </div>
+
+	                <div class="form-group">
+                        <label for="{{ form.place_of_birth.id_for_label }}">Место рождения:</label>
+                        <input type="text" id="{{ form.place_of_birth.id_for_label }}"
+                               name="{{ form.place_of_birth.name }}" class="form-control"
+                               value="{{ form.place_of_birth.value }}">
+		                {% if form.errors.place_of_birth %}
+                            <p class="text-danger">{{ form.errors.place_of_birth }}</p>
+                        {% endif %}
+	                </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.registration_address.id_for_label }}">Адрес регистрации:</label>
+                        <input type="text" id="{{ form.registration_address.id_for_label }}"
+                               name="{{ form.registration_address.name }}" class="form-control"
+                               value="{{ form.registration_address.value }}">
+	                    {% if form.errors.registration_address %}
+                            <p class="text-danger">{{ form.errors.registration_address }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.current_address.id_for_label }}">Адрес проживания:</label>
+                        <input type="text" id="{{ form.current_address.id_for_label }}"
+                               name="{{ form.current_address.name }}" class="form-control"
+                               value="{{ form.current_address.value }}">
+	                    {% if form.errors.current_address %}
+                            <p class="text-danger">{{ form.errors.current_address }}</p>
+                        {% endif %}
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row justify-content-around mb-3">
+
+            <div class="col-sm-4 mt-3">
+
+				<div class="text-center">
+				    <button type="button" class="btn btn-success btn-block" data-toggle="modal"
+				            data-target="#confirmationModal">Сохранить изменения</button>
+				</div>
+
+				<!-- Модальное окно для подтверждения -->
+				<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title" id="confirmationModalLabel">Подтверждение действия</h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            <div class="modal-body">
+				                Вы уверены, что хотите внести изменения?
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+				                <button type="submit" class="btn btn-success">Подтвердить</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+{% endblock content %}
