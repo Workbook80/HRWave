@@ -61,7 +61,7 @@ class BusinessTrip(models.Model):
 class SickLeave(models.Model):
     sick_leave_id = models.AutoField(primary_key=True, verbose_name='Идентификатор больничного')
     employee_sick_leave = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-    reason = models.CharField(max_length=30, blank=True, verbose_name='Причина')
+    reason = models.CharField(max_length=50, blank=True, verbose_name='Причина')
     start_date_sick_leave = models.DateField(verbose_name='Дата начала больничного')
     end_date_sick_leave = models.DateField(verbose_name='Дата конца больничного')
 

@@ -19,6 +19,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from io import BytesIO
+from django.http import HttpResponse  #
 
 
 def login_view(request):
@@ -229,11 +230,20 @@ def export_json(request):
         'last_name': employee.last_name,
         'first_name': employee.first_name,
         'middle_name': employee.middle_name,
+        'date_of_birth': employee.date_of_birth.strftime('%d/%m/%Y'),
+        'place_of_birth': employee.place_of_birth,
+        'passport_series': employee.passport_series,
+        'passport_number': employee.passport_number,
+        'passport_issued_by': employee.passport_issued_by,
+        'passport_issued_date': employee.passport_issued_date.strftime('%d/%m/%Y'),
+        'passport_departament_code': employee.passport_departament_code,
+        'registration_address': employee.registration_address,
+        'current_address': employee.current_address,
         'position': employee.position,
         'hire_date': employee.hire_date.strftime('%d/%m/%Y'),
         'email': employee.email,
         'phone_number': employee.phone_number,
-        # Добавьте другие поля сотрудника, которые вам нужны
+        # Поля сотрудника
         'vacations': [{'type_vacation': vacation.type_vacation,
                        'start_date': vacation.start_date_vacation.strftime('%d/%m/%Y'),
                        'end_date': vacation.end_date_vacation.strftime('%d/%m/%Y')}
@@ -257,8 +267,6 @@ def export_json(request):
 
 @login_required(login_url='hr_records:login')
 def export_pdf(request, employee_id):
-    from .models import Employee, Vacation, BusinessTrip, SickLeave
-
     try:
         employee = Employee.objects.get(employee_id=employee_id)
     except Employee.DoesNotExist:
@@ -278,14 +286,29 @@ def export_pdf(request, employee_id):
     c.setFont('Arial', 12)
 
     # Информация о сотруднике
-    c.drawString(50, 750, f'Сотрудник: {employee.last_name} {employee.first_name}')
-    c.drawString(50, 730, f'Должность: {employee.position}')
-    c.drawString(50, 710, f'Дата приема на работу: {employee.hire_date.strftime("%d/%m/%Y")}')
-    c.drawString(50, 690, f'Email: {employee.email}')
-    c.drawString(50, 670, f'Номер телефона: {employee.phone_number}')
+    c.drawString(50, 750, f'Карточка сотрудника: {employee.last_name} {employee.first_name}')
+    c.drawString(50, 710, 'Информация о сотруднике:')
+    c.drawString(50, 690, f'Имя: {employee.first_name}')
+    c.drawString(50, 670, f'Фамилия: {employee.last_name}')
+    c.drawString(50, 650, f'Отчество: {employee.middle_name}')
+    c.drawString(50, 630, f'Дата рождения: {employee.date_of_birth.strftime("%d/%m/%Y")}')
+    c.drawString(50, 610, f'Должность: {employee.position}')
+    c.drawString(50, 590, f'Дата приема на работу: {employee.hire_date.strftime("%d/%m/%Y")}')
+    c.drawString(50, 570, f'Email: {employee.email}')
+    c.drawString(50, 550, f'Номер телефона: {employee.phone_number}')
+    c.drawString(50, 510, 'Паспортные данные:')
+    c.drawString(50, 490, f'Серия паспорта: {employee.passport_series}')
+    c.drawString(50, 470, f'Номер паспорта: {employee.passport_number}')
+    c.drawString(50, 450, f'Паспорт выдан: {employee.passport_issued_by}')
+    c.drawString(50, 430, f'Дата выдачи паспорта: {employee.passport_issued_date.strftime("%d/%m/%Y")}')
+    c.drawString(50, 410, f'Код подразделения: {employee.passport_departament_code}')
+    c.drawString(50, 390, f'Место рождения: {employee.place_of_birth}')
+    c.drawString(50, 370, f'Адрес регистрации: {employee.registration_address}')
+    c.drawString(50, 350, f'Адрес проживания: {employee.current_address}')
+    c.drawString(50, 310, 'Связанные документы:')
 
     # Начальные координаты для текста об отпусках
-    y = 650
+    y = 290
 
     for record in records:
         if y <= 50:
@@ -298,20 +321,33 @@ def export_pdf(request, employee_id):
             record_type = "Отпуск"
             start_date = record.start_date_vacation.strftime("%d/%m/%Y")
             end_date = record.end_date_vacation.strftime("%d/%m/%Y")
+            if record.type_vacation:
+                record_info = record.type_vacation
+            else:
+                record_info = 'Нет данных'
         elif isinstance(record, BusinessTrip):
             record_type = "Командировка"
             start_date = record.start_date_business_trip.strftime("%d/%m/%Y")
             end_date = record.end_date_business_trip.strftime("%d/%m/%Y")
+            if record.destination:
+                record_info = record.destination
+            else:
+                record_info = 'Нет данных'
         elif isinstance(record, SickLeave):
             record_type = "Больничный"
             start_date = record.start_date_sick_leave.strftime("%d/%m/%Y")
             end_date = record.end_date_sick_leave.strftime("%d/%m/%Y")
+            if record.reason:
+                record_info = record.reason
+            else:
+                record_info = 'Нет данных'
         else:
-            record_type = "Неизвестный тип"
-            start_date = ""
-            end_date = ""
+            record_type = 'Неизвестный тип'
+            start_date = ''
+            end_date = ''
+            record_info = ''
 
-        c.drawString(50, y, f'{record_type}: {start_date} - {end_date}')
+        c.drawString(50, y, f'{record_type}: {start_date} - {end_date} ({record_info})')
         y -= 20
 
     c.save()
@@ -320,3 +356,179 @@ def export_pdf(request, employee_id):
     response = FileResponse(buffer, as_attachment=True, filename=f'{employee.last_name}.pdf')
     return response
 
+
+@login_required(login_url='hr_records:login')
+def vacation_pdf(request):
+
+    search_query = request.GET.get('q')
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+
+    # Проверяем, есть ли значения year и month, и преобразуем их в числа
+    year = int(year) if year and year.isdigit() else None
+    month = int(month) if month and month.isdigit() else None
+
+    # Создаем queryset для модели Vacation с использованием Q-объектов
+    vacation_query = Q()
+
+    if search_query:
+        vacation_query &= Q(employee_vacation__last_name__icontains=search_query)
+
+    if year:
+        vacation_query &= (Q(start_date_vacation__year=year) | Q(end_date_vacation__year=year))
+
+    if month:
+        vacation_query &= (Q(start_date_vacation__month=month) | Q(end_date_vacation__month=month))
+
+    # Получите записи отпусков, соответствующие вашему запросу
+    vacation_records = Vacation.objects.filter(vacation_query)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="records.pdf"'
+
+    # Создаем PDF-документ с помощью библиотеки ReportLab
+    c = canvas.Canvas(response, pagesize=letter)
+
+    pdfmetrics.registerFont(TTFont('Arial', 'hr_records/fonts/ArialRegular.ttf'))
+
+    c.setFont('Arial', 12)
+
+    y = 750
+
+    for record in vacation_records:
+        if y <= 50:
+            # Новая страницу
+            c.showPage()
+            c.setFont('Arial', 12)
+            y = 750
+
+        c.drawString(50, y, f'Сотрудник: {record.employee_vacation.last_name} {record.employee_vacation.first_name}')
+        y -= 20
+        c.drawString(50, y, f'Дата начала отпуска: {record.start_date_vacation.strftime("%d/%m/%Y")}')
+        y -= 20
+        c.drawString(50, y, f'Дата окончания отпуска: {record.end_date_vacation.strftime("%d/%m/%Y")}')
+        y -= 20
+        c.drawString(50, y, f'Вид отпуска: {record.type_vacation}')
+        y -= 40
+
+    c.save()
+    return response
+
+
+@login_required(login_url='hr_records:login')
+def business_trip_pdf(request):
+
+    search_query = request.GET.get('q')
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+
+    # Проверяем, есть ли значения year и month, и преобразуем их в числа
+    year = int(year) if year and year.isdigit() else None
+    month = int(month) if month and month.isdigit() else None
+
+    # Создаем queryset для модели Vacation с использованием Q-объектов
+    business_trip_query = Q()
+
+    if search_query:
+        business_trip_query &= Q(employee_business_trip__last_name__icontains=search_query)
+
+    if year:
+        business_trip_query &= (Q(start_date_business_trip__year=year) | Q(end_date_business_trip__year=year))
+
+    if month:
+        business_trip_query &= (Q(start_date_business_trip__month=month) | Q(end_date_business_trip__month=month))
+
+    business_trip_records = BusinessTrip.objects.filter(business_trip_query)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="records.pdf"'
+
+    # Создаем PDF-документ с помощью библиотеки ReportLab
+    c = canvas.Canvas(response, pagesize=letter)
+
+    pdfmetrics.registerFont(TTFont('Arial', 'hr_records/fonts/ArialRegular.ttf'))
+
+    c.setFont('Arial', 12)
+
+    y = 750
+
+    for record in business_trip_records:
+        if y <= 50:
+            # Новая страницу
+            c.showPage()
+            c.setFont('Arial', 12)
+            y = 750
+
+        c.drawString(50, y,
+                     f'Сотрудник: {record.employee_business_trip.last_name} {record.employee_business_trip.first_name}')
+        y -= 20
+        c.drawString(50, y, f'Дата начала командировки: {record.start_date_business_trip.strftime("%d/%m/%Y")}')
+        y -= 20
+        c.drawString(50, y, f'Дата окончания командировки: {record.end_date_business_trip.strftime("%d/%m/%Y")}')
+        y -= 20
+        if record.destination:
+            c.drawString(50, y, f'Место назначения: {record.destination}')
+        else:
+            c.drawString(50, y, 'Место назначения: Неизвестно')
+        y -= 40
+
+    c.save()
+    return response
+
+
+@login_required(login_url='hr_records:login')
+def sick_leave_pdf(request):
+
+    search_query = request.GET.get('q')
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+
+    # Проверяем, есть ли значения year и month, и преобразуем их в числа
+    year = int(year) if year and year.isdigit() else None
+    month = int(month) if month and month.isdigit() else None
+
+    sick_leave_query = Q()
+
+    if search_query:
+        sick_leave_query &= Q(employee_sick_leave__last_name__icontains=search_query)
+
+    if year:
+        sick_leave_query &= (Q(start_date_sick_leave__year=year) | Q(end_date_sick_leave__year=year))
+
+    if month:
+        sick_leave_query &= (Q(start_date_sick_leave__month=month) | Q(end_date_sick_leave__month=month))
+
+    # Получите записи отпусков, соответствующие вашему запросу
+    sick_leave_records = SickLeave.objects.filter(sick_leave_query)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="records.pdf"'
+
+    # Создаем PDF-документ с помощью библиотеки ReportLab
+    c = canvas.Canvas(response, pagesize=letter)
+
+    pdfmetrics.registerFont(TTFont('Arial', 'hr_records/fonts/ArialRegular.ttf'))
+
+    c.setFont('Arial', 12)
+
+    y = 750
+
+    for record in sick_leave_records:
+        if y <= 50:
+            # Новая страницу
+            c.showPage()
+            c.setFont('Arial', 12)
+            y = 750
+
+        c.drawString(50, y,
+                     f'Сотрудник: {record.employee_sick_leave.last_name} {record.employee_sick_leave.first_name}')
+        y -= 20
+        c.drawString(50, y, f'Дата начала больничного: {record.start_date_sick_leave.strftime("%d/%m/%Y")}')
+        y -= 20
+        c.drawString(50, y, f'Дата окончания больничного: {record.end_date_sick_leave.strftime("%d/%m/%Y")}')
+        y -= 20
+        c.drawString(50, y, f'Причина: {record.reason}')
+        y -= 40
+
+    c.save()
+    return response

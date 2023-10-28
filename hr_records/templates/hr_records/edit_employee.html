@@ -18,7 +18,7 @@
                                name="{{ form.last_name.name }}" class="form-control"
                                value="{{ form.last_name.value }}">
 	                    {% if form.errors.last_name %}
-                            <p class="text-danger">{{ form.errors.last_name }}</p>
+                            <h6 class="text-danger">{{ form.errors.last_name }}</h6>
                         {% endif %}
                     </div>
 
@@ -28,7 +28,7 @@
                                name="{{ form.first_name.name }}" class="form-control"
                                value="{{ form.first_name.value }}">
                         {% if form.errors.first_name %}
-                            <p class="text-danger">{{ form.errors.first_name }}</p>
+                            <h6 class="text-danger">{{ form.errors.first_name }}</h6>
                         {% endif %}
                     </div>
 
@@ -36,9 +36,9 @@
                         <label for="{{ form.middle_name.id_for_label }}">Отчество:</label>
                         <input type="text" id="{{ form.middle_name.id_for_label }}"
                                name="{{ form.middle_name.name }}" class="form-control"
-                               value="{{ form.middle_name.value }}">
+                               value="{{ form.middle_name.value }}" placeholder="Опционально">
 	                    {% if form.errors.middle_name %}
-                            <p class="text-danger">{{ form.errors.middle_name }}</p>
+                            <h6 class="text-danger">{{ form.errors.middle_name }}</h6>
                         {% endif %}
                     </div>
 
@@ -48,7 +48,7 @@
                                name="{{ form.date_of_birth.name }}" class="form-control"
                                value="{{ form.date_of_birth.value|date:'Y-m-d' }}">
 	                    {% if form.errors.date_of_birth %}
-                            <p class="text-danger">{{ form.errors.date_of_birth }}</p>
+                            <h6 class="text-danger">{{ form.errors.date_of_birth }}</h6>
                         {% endif %}
                     </div>
 
@@ -58,7 +58,7 @@
                                name="{{ form.position.name }}" class="form-control"
                                value="{{ form.position.value }}">
 	                    {% if form.errors.position %}
-                            <p class="text-danger">{{ form.errors.position }}</p>
+                            <h6 class="text-danger">{{ form.errors.position }}</h6>
                         {% endif %}
                     </div>
 
@@ -68,7 +68,7 @@
                                name="{{ form.hire_date.name }}" class="form-control"
                                value="{{ form.hire_date.value|date:'Y-m-d' }}">
 	                    {% if form.errors.hire_date %}
-                            <p class="text-danger">{{ form.errors.hire_date }}</p>
+                            <h6 class="text-danger">{{ form.errors.hire_date }}</h6>
                         {% endif %}
                     </div>
 
@@ -76,9 +76,9 @@
 	                    <label for="{{ form.email.id_for_label }}">Почта:</label>
 	                    <input type="email" id="{{ form.email.id_for_label }}"
 	                           name="{{ form.email.name }}" class="form-control"
-	                           value="{{ form.email.value }}">
+	                           value="{{ form.email.value }}" placeholder="Опционально">
 		                {% if form.errors.email %}
-                            <p class="text-danger">{{ form.errors.email }}</p>
+                            <h6 class="text-danger">{{ form.errors.email }}</h6>
                         {% endif %}
 	                </div>
 
@@ -86,9 +86,9 @@
 	                    <label for="{{ form.phone_number.id_for_label }}">Номер телефона:</label>
 	                    <input type="number" id="{{ form.phone_number.id_for_label }}"
 	                           name="{{ form.phone_number.name }}" class="form-control"
-	                           value="{{ form.phone_number.value }}">
+	                           value="{{ form.phone_number.value }}" placeholder="Опционально">
 		                {% if form.errors.phone_number %}
-                            <p class="text-danger">{{ form.errors.phone_number }}</p>
+                            <h6 class="text-danger">{{ form.errors.phone_number }}</h6>
                         {% endif %}
 	                </div>
 
@@ -105,7 +105,7 @@
                                name="{{ form.passport_series.name }}" class="form-control"
                                value="{{ form.passport_series.value }}">
 	                    {% if form.errors.passport_series %}
-                            <p class="text-danger">{{ form.errors.passport_series }}</p>
+                            <h6 class="text-danger">{{ form.errors.passport_series }}</h6>
                         {% endif %}
                     </div>
 
@@ -115,7 +115,7 @@
                                name="{{ form.passport_number.name }}" class="form-control"
                                value="{{ form.passport_number.value }}">
 	                    {% if form.errors.passport_number %}
-                            <p class="text-danger">{{ form.errors.passport_number }}</p>
+                            <h6 class="text-danger">{{ form.errors.passport_number }}</h6>
                         {% endif %}
                     </div>
 
@@ -125,7 +125,7 @@
                                name="{{ form.passport_issued_by.name }}" class="form-control"
                                value="{{ form.passport_issued_by.value }}">
 	                    {% if form.errors.passport_issued_by %}
-                            <p class="text-danger">{{ form.errors.passport_issued_by }}</p>
+                            <h6 class="text-danger">{{ form.errors.passport_issued_by }}</h6>
                         {% endif %}
                     </div>
 
@@ -135,7 +135,7 @@
                                name="{{ form.passport_issued_date.name }}" class="form-control"
                                value="{{ form.passport_issued_date.value|date:'Y-m-d' }}">
 	                    {% if form.errors.passport_issued_date %}
-                            <p class="text-danger">{{ form.errors.passport_issued_date }}</p>
+                            <h6 class="text-danger">{{ form.errors.passport_issued_date }}</h6>
                         {% endif %}
                     </div>
 
@@ -145,7 +145,7 @@
                                name="{{ form.passport_departament_code.name }}" class="form-control"
                                value="{{ form.passport_departament_code.value }}">
 	                    {% if form.errors.passport_departament_code %}
-                            <p class="text-danger">{{ form.errors.passport_departament_code }}</p>
+                            <h6 class="text-danger">{{ form.errors.passport_departament_code }}</h6>
                         {% endif %}
                     </div>
 
@@ -155,7 +155,7 @@
                                name="{{ form.place_of_birth.name }}" class="form-control"
                                value="{{ form.place_of_birth.value }}">
 		                {% if form.errors.place_of_birth %}
-                            <p class="text-danger">{{ form.errors.place_of_birth }}</p>
+                            <h6 class="text-danger">{{ form.errors.place_of_birth }}</h6>
                         {% endif %}
 	                </div>
 
@@ -165,7 +165,7 @@
                                name="{{ form.registration_address.name }}" class="form-control"
                                value="{{ form.registration_address.value }}">
 	                    {% if form.errors.registration_address %}
-                            <p class="text-danger">{{ form.errors.registration_address }}</p>
+                            <h6 class="text-danger">{{ form.errors.registration_address }}</h6>
                         {% endif %}
                     </div>
 
@@ -175,7 +175,7 @@
                                name="{{ form.current_address.name }}" class="form-control"
                                value="{{ form.current_address.value }}">
 	                    {% if form.errors.current_address %}
-                            <p class="text-danger">{{ form.errors.current_address }}</p>
+                            <h6 class="text-danger">{{ form.errors.current_address }}</h6>
                         {% endif %}
                     </div>
                 </fieldset>
@@ -187,8 +187,7 @@
             <div class="col-sm-4 mt-3">
 
 				<div class="text-center">
-				    <button type="button" class="btn btn-success btn-block" data-toggle="modal"
-				            data-target="#confirmationModal">Сохранить изменения</button>
+				    <button type="button" class="btn btn-success btn-block">Сохранить изменения</button>
 				</div>
 
 				<!-- Модальное окно для подтверждения -->
@@ -212,11 +211,79 @@
 				    </div>
 				</div>
 
+	            <!-- Модальное окно для пустых значений -->
+				<div class="modal fade" id="emptyFieldModal" tabindex="-1" role="dialog" aria-labelledby="emptyFieldModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title" id="emptyFieldModalLabel">Ошибка: недостаточно данных</h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            <div class="modal-body">
+				                Пожалуйста, заполните все необходимые поля.
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
             </div>
-
         </div>
-
     </form>
 </div>
+
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+		    const saveButton = document.querySelector(".btn-success");
+            document.getElementById("confirmationModal");
+            document.getElementById("emptyFieldModal");
+            const form = document.querySelector("form");
+
+            saveButton.addEventListener("click", function () {
+		        // Проверка обязательных полей на пустоту (здесь вы можете добавить свои условия)
+		        const requiredFields = [
+		            "{{ form.last_name.name }}",
+		            "{{ form.first_name.name }}",
+		            "{{ form.date_of_birth.name }}",
+		            "{{ form.position.name }}",
+		            "{{ form.hire_date.name }}",
+		            "{{ form.passport_series.name }}",
+		            "{{ form.passport_number.name }}",
+		            "{{ form.passport_issued_by.name }}",
+		            "{{ form.passport_issued_date.name }}",
+		            "{{ form.passport_departament_code.name }}",
+		            "{{ form.place_of_birth.name }}",
+		            "{{ form.registration_address.name }}",
+		            "{{ form.current_address.name }}"
+		        ];
+
+		        const missingFields = requiredFields.filter(field => {
+		            const inputField = document.querySelector(`[name="${field}"]`);
+		            return inputField.value.trim() === "";
+		        });
+
+		        if (missingFields.length > 0) {
+		            // Если есть пропущенные обязательные поля, открываем модальное окно "Обязательные поля пропущены"
+		            $('#emptyFieldModal').modal('show');
+		        } else {
+		            // Если все обязательные поля заполнены, открываем модальное окно "Подтверждение действия"
+		            $('#confirmationModal').modal('show');
+		        }
+		    });
+
+	        // Добавляем обработчик нажатия клавиши Enter
+	        form.addEventListener("keypress", function (event) {
+	            if (event.key === "Enter") {
+	                event.preventDefault(); // Предотвратить отправку формы при нажатии Enter
+	            }
+	        });
+		});
+	</script>
+
 
 {% endblock content %}

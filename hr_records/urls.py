@@ -15,7 +15,10 @@ urlpatterns = [
     path('create_business_trip/', views.create_business_trip, name='create_business_trip'),
     path('create_sick_leave/', views.create_sick_leave, name='create_sick_leave'),
     path('edit_employee/<int:employee_id>/', views.edit_employee, name='edit_employee'),
-    path('export_data/', views.export_json, name='export_json'),
-    path('generate_pdf/<int:employee_id>/', views.export_pdf, name='export_pdf'),
+    path('export_json/', views.export_json, name='export_json'),
+    path('export_pdf/<int:employee_id>/', views.export_pdf, name='export_pdf'),
+    path('vacation_pdf', views.vacation_pdf, name='vacation_pdf'),
+    path('business_trip_pdf', views.business_trip_pdf, name='business_trip_pdf'),
+    path('sick_leave_pdf', views.sick_leave_pdf, name='sick_leave_pdf'),
 ]
 

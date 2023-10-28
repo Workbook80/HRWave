@@ -29,12 +29,34 @@
                 </div>
             </div>
 
-            <div class="text-center mt-3 mb-3">
-	            <a href="{% url 'hr_records:employee_list' %}" class="btn btn-danger m-1">Вернуться</a>
-                <a href="{% url 'hr_records:edit_employee' employee_id=employee.employee_id %}" class="btn btn-success m-1">Редактировать</a>
-	            <a href="{% url 'hr_records:export_json' %}?employee_id={{ employee.employee_id }}" class="btn btn-info m-1">Экспорт в JSON</a>
-                <a href="{% url 'hr_records:export_pdf' employee_id=employee.employee_id %}" class="btn btn-info m-1">Экспорт в PDF</a>
-            </div>
+			<div class="row justify-content-around mb-3">
+
+			    <div class="col-sm-3 mt-3">
+			        <div class="text-center">
+			            <a class="btn btn-danger btn-block" href="{% url 'hr_records:employee_list' %}">Вернуться</a>
+			        </div>
+			    </div>
+
+			    <div class="col-sm-3 mt-3">
+			        <div class="text-center">
+			            <a class="btn btn-success btn-block" href="{% url 'hr_records:edit_employee' employee_id=employee.employee_id %}">Редактировать</a>
+			        </div>
+			    </div>
+
+			    <div class="col-sm-3 mt-3">
+			        <div class="text-center">
+			            <a class="btn btn-info btn-block" href="{% url 'hr_records:export_json' %}?employee_id={{ employee.employee_id }}">Экспорт в JSON</a>
+			        </div>
+			    </div>
+
+			    <div class="col-sm-3 mt-3">
+			        <div class="text-center">
+			            <a class="btn btn-info btn-block" href="{% url 'hr_records:export_pdf' employee_id=employee.employee_id %}">Экспорт в PDF</a>
+			        </div>
+			    </div>
+
+			</div>
+
         </div>
 
 
@@ -134,9 +156,6 @@
                     </ul>
                 </nav>
             </div>
-
-
-
 
 
             <div class="card mt-3">

@@ -9,9 +9,8 @@ class EmployeeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Проверяем, редактируется ли существующий сотрудник
+
         if self.instance.pk is None:
-            # Если создается новый сотрудник, устанавливаем значение полей по умолчанию
             self.fields['first_name'].initial = ''
             self.fields['last_name'].initial = ''
             self.fields['middle_name'].initial = ''

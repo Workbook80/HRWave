@@ -21,7 +21,7 @@
                            name="{{ form.start_date_business_trip.name }}" class="form-control"
                            value="{{ form.start_date_business_trip.value }}">
                     {% if form.errors.start_date_business_trip %}
-                        <p class="text-danger">{{ form.errors.start_date_business_trip }}</p>
+                        <h6 class="text-danger">{{ form.errors.start_date_business_trip }}</h6>
                     {% endif %}
                 </div>
             </div>
@@ -33,7 +33,7 @@
                            name="{{ form.end_date_business_trip.name }}" class="form-control"
                            value="{{ form.end_date_business_trip.value }}">
                     {% if form.errors.end_date_business_trip %}
-                        <p class="text-danger">{{ form.errors.end_date_business_trip }}</p>
+                        <h6 class="text-danger">{{ form.errors.end_date_business_trip }}</h6>
                     {% endif %}
                 </div>
             </div>
@@ -43,28 +43,27 @@
                     <label for="{{ form.destination.id_for_label }}">Место назначения:</label>
                     <input type="text" id="{{ form.destination.id_for_label }}"
                            name="{{ form.destination.name }}" class="form-control"
-                           value="{{ form.destination.value }}">
+                           value="{{ form.destination.value }}" placeholder="Опционально">
                     {% if form.errors.destination %}
-                        <p class="text-danger">{{ form.errors.destination }}</p>
+                        <h6 class="text-danger">{{ form.errors.destination }}</h6>
                     {% endif %}
                 </div>
             </div>
 
         </div>
-        <div class="row align-items-start mt-3 mb-3">
-            <div class="col-1"></div>
-            <div class="col-3">
-                <div class="text-center">
-                    <a class="btn btn-danger btn-block" href="{% url 'hr_records:employee_list' %}">Вернуться</a>
-                </div>
-            </div>
-            <div class="col-4"></div>
-            <div class="col-3">
 
-				<div class="text-center">
-				    <button type="button" class="btn btn-success btn-block" data-toggle="modal"
-				            data-target="#confirmationModal">Создать</button>
-				</div>
+		<div class="row align-items-start mt-3 mb-3 justify-content-between">
+		    <div class="col-12 col-md-3 mb-2">
+		        <div class="text-center">
+		            <a class="btn btn-danger btn-block" href="{% url 'hr_records:employee_list' %}">Вернуться</a>
+		        </div>
+		    </div>
+		    <div class="col-12 col-md-3 mb-2">
+		        <div class="text-center">
+		            <button type="button" class="btn btn-success btn-block">Создать</button>
+		        </div>
+		    </div>
+		</div>
 
 				<!-- Модальное окно для подтверждения -->
 				<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
@@ -87,10 +86,86 @@
 				    </div>
 				</div>
 
-            </div>
-            <div class="col-1"></div>
-        </div>
+	             <!-- Модальное окно для ошибки даты -->
+				<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title" id="errorModalLabel">Ошибка: неверная дата</h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            <div class="modal-body">
+				                Дата окончания командировки не может быть меньше даты начала.
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
+    				<!-- Модальное окно для пустых значений -->
+				<div class="modal fade" id="emptyFieldModal" tabindex="-1" role="dialog" aria-labelledby="emptyFieldModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-dialog-centered" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title" id="emptyFieldModalLabel">Ошибка: недостаточно данных</h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            <div class="modal-body">
+				                Пожалуйста, заполните все необходимые поля.
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
     </form>
 </div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+		    const startDateInput = document.getElementById("{{ form.start_date_business_trip.id_for_label }}");
+		    const endDateInput = document.getElementById("{{ form.end_date_business_trip.id_for_label }}");
+		    const createButton = document.querySelector(".btn-success");
+            const form = document.querySelector("form");
+
+		    createButton.addEventListener("click", function (event) {
+		        event.preventDefault();
+
+		        const startDate = startDateInput.value;
+		        const endDate = endDateInput.value;
+
+		        if (startDate.trim() === '' || endDate.trim() === '') {
+		            // Проверка на пустые поля
+		            $('#emptyFieldModal').modal('show');
+		        } else {
+		            const startDateValue = new Date(startDate);
+		            const endDateValue = new Date(endDate);
+
+		            if (endDateValue < startDateValue) {
+		                // Модальное окно "Ошибка даты"
+		                $('#errorModal').modal('show');
+		            } else {
+		                // Модальное окно подтверждения
+		                $('#confirmationModal').modal('show');
+		            }
+		        }
+		    });
+
+	        // Добавляем обработчик нажатия клавиши Enter
+	        form.addEventListener("keypress", function (event) {
+	            if (event.key === "Enter") {
+	                event.preventDefault(); // Предотвратить отправку формы при нажатии Enter
+	            }
+	        });
+		});
+	</script>
 
 {% endblock content %}
